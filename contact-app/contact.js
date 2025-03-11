@@ -49,7 +49,7 @@ const simpanContact = (nama, email, noHP) => {
   }
 
 
-  contacts.push(contact);
+  contacts.push(contact); 
 
   fs.writeFileSync("./data/contacts.json", JSON.stringify(contacts, null, 2));
   console.log("Berhasil menyimpan data.");
