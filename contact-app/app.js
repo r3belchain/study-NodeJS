@@ -1,28 +1,68 @@
 const yargs = require("yargs");
-const { simpanContact } = require("./contact");
+const { simpanContact, listContacts, detailContact, deleteContact } = require("./contact");
+
+yargs
+  .command({
+    command: "add",
+    desc: "Menambahkan kontak baru",
+    builder: {
+      nama: {
+        describe: "Nama lengkap",
+        demandOption: true,
+        type: "string",
+      },
+      email: {
+        describe: "Email",
+        demandOption: false,
+        type: "string",
+      },
+      noHP: {
+        describe: "Nomor HP",
+        demandOption: true,
+        type: "string",
+      },
+    },
+    handler(argv) {
+      simpanContact(argv.nama, argv.email, argv.noHP);
+    },
+  })
+  .demandCommand();
 
 yargs.command({
-  command: "add",
-  desc: "Menambahkan kontak baru",
+  command: "list",
+  desc: "Menampilkan semua nama & nomor HP di dalam kontak",
+  handler() {
+    listContacts();
+  },
+});
+
+yargs.command({
+  command: "detail",
+  desc: "Menampilkan detail sebuah contact berdasarkan nama",
+  builder: {
+    nama: {
+        describe: "Nama lengkap",
+        demandOption: true,
+        type: "string",
+      },
+  },
+  handler(argv) {
+    detailContact(argv.nama);
+  },
+});
+
+yargs.command({
+  command: "delete",
+  desc: "Menghapus sebuah contact berdasarkan nama",
   builder: {
     nama: {
       describe: "Nama lengkap",
       demandOption: true,
       type: "string",
     },
-    email: {
-      describe: "Email",
-      demandOption: false,
-      type: "string",
-    },
-    noHP: {
-      describe: "Nomor HP",
-      demandOption: true,
-      type: "string",
-    },
   },
   handler(argv) {
-    simpanContact(argv.nama, argv.email, argv.noHP);
+   deleteContact(argv.nama);
   },
 });
 
